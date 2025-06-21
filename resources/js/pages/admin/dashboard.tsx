@@ -1,7 +1,8 @@
+import { AdminLayout } from "@/layouts/admin/admin-layout";
 import { SharedData } from "@/types";
 import { usePage } from "@inertiajs/react";
 
-export default function Dashboard() {
+const Dashboard = () => {
     const { auth } = usePage<SharedData>().props;
     return (
         <div>
@@ -9,3 +10,7 @@ export default function Dashboard() {
         </div>
     );
 }
+
+Dashboard.layout = (page: React.ReactNode) => <AdminLayout children={page} />
+
+export default Dashboard;
