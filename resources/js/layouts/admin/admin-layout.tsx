@@ -1,4 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
+import { SharedData } from '@/types';
 
 const links = [
     {
@@ -8,10 +9,15 @@ const links = [
     {
         name: 'Students',
         href: '/admin/students',
+    },
+    {
+        name: 'Teachers',
+        href: '/admin/teachers'
     }
 ]
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
+    const { auth } = usePage<SharedData>().props;
 
     return (
         <div className="min-h-screen flex">
@@ -35,15 +41,16 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-6 bg-gray-100">
+            <main className="flex-1 p-6 bg-gray-200">
                 <header className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-semibold">Dashboard</h1>
-                    {/* <div>
+                    <h1 className="text-2xl font-semibold text-black">Dashboard</h1>
+                    <div>
                         {auth?.user?.name}
-                    </div> */}
+                    </div>
+                  
                 </header>
 
-                <section className='bg-gray-400 px-2 pt-4 pb-4 shadow-md'>
+                <section className=''>
                     {children}
                 </section>
             </main>

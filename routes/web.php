@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminTeacherController;
 use App\Http\Controllers\Admin\StudentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
 
     Route::resource('students', StudentController::class);
+
+    Route::resource('teachers', AdminTeacherController::class);
 });
 
 require __DIR__ . '/settings.php';

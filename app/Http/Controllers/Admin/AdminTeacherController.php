@@ -14,10 +14,12 @@ class AdminTeacherController extends Controller
      */
     public function index()
     {
-        $students = User::where('role', 'teacher')->get();
+        $teachers = User::where('role', 'teacher')->get();
 
-        return Inertia::render('admin/students/index', [
-            'students' => $students,
+        // dd($teachers);
+
+        return Inertia::render('admin/teachers/index', [
+            'teachers' => $teachers,
         ]);
     }
 
@@ -26,7 +28,7 @@ class AdminTeacherController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/teachers/create');
     }
 
     /**
@@ -34,7 +36,20 @@ class AdminTeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:3',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => 'teacher'
+        ]);
+
+        return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
 
     /**
@@ -64,8 +79,14 @@ class AdminTeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $teacher)
     {
-        //
+        if ($teacher->role !== "teacher") {
+            return redirect()->route('teachers.index')->with('error', 'User is not valid');
+        }
+
+        $teacher->delete();
+
+        return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully.');
     }
 }
